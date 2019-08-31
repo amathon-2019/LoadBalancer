@@ -9,40 +9,32 @@ import javax.persistence.Table;
 @Table(name = "TARGET_GROUP")
 public class TargetGroup {
 	@Id
-	@Column(name = "SERVER_NAME", length = 20, nullable = false)
-	String serverName;
-
-	@Column(name = "IN_BOUND_PORT", length = 10, nullable = false)
-	int inboundPort;
-
-	@Column(name = "OUT_BOUND_PORT", length = 10, nullable = false)
-	int outboundPort;
-
 	@Column(name = "HOST", length = 20, nullable = false)
 	String host;
 
-	public String getServerName() {
-		return serverName;
-	}
+	@Column(name = "IN_BOUND_PORT", length = 10, nullable = false)
+	Integer inBoundPort;
 
-	public void setServerName(String serverName) {
-		this.serverName = serverName;
-	}
+	@Column(name = "OUT_BOUND_PORT", length = 10, nullable = false)
+	Integer outBoundPort;
+
+	@Column(name = "CONNECTION", length = 10, nullable = false)
+	Integer connection = 0;
 
 	public int getInboundPort() {
-		return inboundPort;
+		return inBoundPort;
 	}
 
 	public void setInboundPort(int inboundPort) {
-		this.inboundPort = inboundPort;
+		this.inBoundPort = inboundPort;
 	}
 
 	public int getOutboundPort() {
-		return outboundPort;
+		return outBoundPort;
 	}
 
 	public void setOutboundPort(int outboundPort) {
-		this.outboundPort = outboundPort;
+		this.outBoundPort = outboundPort;
 	}
 
 	public String getHost() {
@@ -51,5 +43,13 @@ public class TargetGroup {
 
 	public void setHost(String host) {
 		this.host = host;
+	}
+
+	public Integer getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Integer connection) {
+		this.connection = connection;
 	}
 }

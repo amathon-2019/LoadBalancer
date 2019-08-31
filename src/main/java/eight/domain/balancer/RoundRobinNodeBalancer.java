@@ -1,5 +1,8 @@
 package eight.domain.balancer;
 
+import org.springframework.stereotype.Component;
+
+@Component
 class RoundRobinNodeBalancer implements NodeBalancer {
 
 	@Override

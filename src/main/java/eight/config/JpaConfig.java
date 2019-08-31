@@ -6,8 +6,8 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import eight.domain.repository.TargetGroupRepository;
 import eight.model.TargetGroup;
-import eight.repository.TargetGroupRepository;
 
 @Configuration
 @EntityScan(basePackageClasses = { Jsr310JpaConverters.class, TargetGroup.class })

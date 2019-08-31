@@ -1,4 +1,4 @@
-package eight.service;
+package eight.domain.service;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
