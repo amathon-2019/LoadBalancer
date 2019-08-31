@@ -1,10 +1,10 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.7.RELEASE'
+	id 'org.springframework.boot' version '2.1.3.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 }
 
-group = 'dilcheck'
+group = 'eight'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -12,7 +12,14 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+  h2databaseVersion = '1.4.197'
+}
+
 dependencies {
+  compile "org.springframework.boot:spring-boot-starter-data-jpa"
+  runtime "com.h2database:h2:${h2databaseVersion}"
+ 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
