@@ -1,5 +1,7 @@
 package eight.model;
 
+import com.sun.javafx.beans.IDProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,26 +10,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TARGET_GROUP")
 public class TargetGroup {
-	@Id
-	@Column(name = "SERVER_NAME", length = 20, nullable = false)
-	String serverName;
-
 	@Column(name = "IN_BOUND_PORT", length = 10, nullable = false)
 	int inboundPort;
 
 	@Column(name = "OUT_BOUND_PORT", length = 10, nullable = false)
 	int outboundPort;
 
+	@Id
 	@Column(name = "HOST", length = 20, nullable = false)
 	String host;
 
-	public String getServerName() {
-		return serverName;
-	}
+	@Column(name = "CONNECTION", length = 10, nullable = false)
+	Integer connection = 0;
 
-	public void setServerName(String serverName) {
-		this.serverName = serverName;
-	}
+	public Integer getConnection() { return connection; }
+
+	public void setConnection(Integer connection) { this.connection = connection; }
 
 	public int getInboundPort() {
 		return inboundPort;

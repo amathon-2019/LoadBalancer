@@ -16,12 +16,12 @@ public class TagetGroupService extends AbstractService {
 
 		TargetGroup targetGroup = new TargetGroup();
 		targetGroup.setHost("test");
-		targetGroup.setServerName("test");
+		targetGroup.setInboundPort(80);
 
 		targetGroupRepository.save(targetGroup);
 
 		targetGroupRepository.findAll().forEach(t -> {
-			System.out.println(t.getServerName());
+			System.out.println(t.getInboundPort());
 		});
 	}
 }
