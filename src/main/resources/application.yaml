@@ -10,3 +10,7 @@ spring:
       path: /h2-console
       settings:
         web-allow-others: true
+
+loadBalancer:
+  Node: roundRobin
+  #Stickyness: true
