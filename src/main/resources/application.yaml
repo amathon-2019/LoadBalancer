@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL #in memory db
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL
     username: admin
     password: admin
     validationQuery: SELECT 1
@@ -12,6 +12,5 @@ spring:
         web-allow-others: true
 
 loadBalancer:
-#  mode: roundRobin
   mode: leastConnection
-#  Stickyness: true
+#  mode: roundRobin

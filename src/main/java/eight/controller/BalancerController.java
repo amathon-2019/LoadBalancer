@@ -6,6 +6,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +19,8 @@ import eight.util.ConnectionPool;
 
 @RestController
 public class BalancerController extends AbstractContoller {
+	public static String MODE = null;
+
 	@Autowired
 	NodeBalancerService nodeBalancerLauncher;
 
@@ -27,17 +32,40 @@ public class BalancerController extends AbstractContoller {
 		int inBoundPort = req.getLocalPort();
 		String reuqestUri = req.getRequestURI();
 
-		String destination = nodeBalancerLauncher.execute(inBoundPort);
+		MODE = req.getParameter("mode");
+
+		String destination;
+		if (req.getSession().getAttribute("leastDestination") == null) {
+			destination = nodeBalancerLauncher.execute(inBoundPort);
+		} else {
+			destination = req.getSession().getAttribute("leastDestination").toString();
+		}
+
 		String destinationForm = getDestinationForm(destination, reuqestUri);
 
-		AtomicInteger con = connectionPool.getConnection(destination);
+		HttpHeaders headers = new HttpHeaders();
 
+		String serverSessionKey = destinationForm + "key";
+
+		if (req.getSession().getAttribute(serverSessionKey) != null) {
+			headers.set(HttpHeaders.COOKIE, req.getSession().getAttribute(serverSessionKey).toString());
+		}
+
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+		AtomicInteger con = connectionPool.getConnection(destination);
 		con.getAndIncrement();
-		ResponseEntity<String> res = new RestTemplate().getForEntity(destinationForm, String.class);
+		ResponseEntity<String> res = new RestTemplate().exchange(destinationForm, HttpMethod.GET, entity, String.class);
 		con.getAndDecrement();
 
 		String body = res.getBody();
-//		System.out.println(body);
+
+		if (req.getSession().getAttribute(serverSessionKey) == null) {
+			String session = res.getHeaders().get("Set-Cookie").get(0).split(";")[0];
+			req.getSession().setAttribute(serverSessionKey, session);
+			req.getSession().setAttribute("leastDestination", destination);
+		}
+
 		return body;
 	}
 

@@ -14,9 +14,10 @@ public class SampleTests {
 
 		long startTime = System.currentTimeMillis();
 		IntStream.range(0, testCount).parallel().forEach(i -> {
-			new RestTemplate().getForEntity("http://localhost:8080/", String.class);
+//			new RestTemplate().getForEntity("http://localhost:8080/?mode=leastConnection", String.class);
+			new RestTemplate().getForEntity("http://localhost:8080/?mode=roundRobin", String.class);
 		});
-		
+
 		long endTime = System.currentTimeMillis();
 
 		System.out.println(testCount / ((endTime - startTime) / 1000));

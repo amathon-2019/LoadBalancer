@@ -1,7 +1,8 @@
 package eight.domain.service;
 
+import static eight.controller.BalancerController.MODE;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import eight.domain.balancer.LeastConnectionNodeBalancer;
@@ -11,8 +12,8 @@ import eight.domain.balancer.RoundRobinNodeBalancer;
 @Component
 public class NodeBalancerService implements NodeBalancer {
 
-	@Value("${loadBalancer.mode}")
-	String mode;
+//	@Value("${loadBalancer.mode}")
+//	String mode;
 
 	@Autowired
 	LeastConnectionNodeBalancer leastConnectionNodeBalancer;
@@ -22,11 +23,11 @@ public class NodeBalancerService implements NodeBalancer {
 
 	@Override
 	public String execute(int inBoundPort) {
-		if (mode.equals("roundRobin")) {
+		if (MODE.equals("roundRobin")) {
 			return roundRobinNodeBalancer.execute(inBoundPort);
 		}
 
-		if (mode.equals("leastConnection")) {
+		if (MODE.equals("leastConnection")) {
 			return leastConnectionNodeBalancer.execute(inBoundPort);
 		}
 
