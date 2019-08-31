@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import eight.domain.balancer.NodeBalancerLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,8 +19,10 @@ import eight.domain.service.TagetGroupService;
 public class BalancerController {
 	@Autowired
 	TagetGroupService tagetGroupService;
-	
-	
+
+	@Autowired
+	NodeBalancerLauncher nodeBalancerLauncher;
+
 	int count = 0;
 
 	@GetMapping("*")
@@ -52,5 +55,4 @@ public class BalancerController {
 		sb.append(uri);
 		return sb.toString();
 	}
-
 }
