@@ -6,7 +6,7 @@ simple load balancer
 
 # Architecture
 
-![image-20190831234222407](/Users/hwan/Library/Application Support/typora-user-images/image-20190831234222407.png)
+![architecture](https://user-images.githubusercontent.com/21194094/64066694-ff5cbe80-cc57-11e9-8a36-6ea30c9bae47.png)
 
 # Mode
 
@@ -47,7 +47,7 @@ checkout features/view
 
 - Least Connection Test
 
-  http://localhost:8080/?mode=leastConnection ["http://localhost:8080/?mode=leastConnection"]
+  http://localhost:8080/?mode=leastConnection
 
 
 
