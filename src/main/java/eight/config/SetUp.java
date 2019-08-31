@@ -12,21 +12,17 @@ import eight.model.TargetGroup;
 import eight.util.ConnectionPool;
 
 @Configuration
-public class SetUp
-{
-    @Autowired
-    ConnectionPool pool;
+public class SetUp {
+	@Autowired
+	ConnectionPool pool;
 
-    @Autowired
-    TargetGroupRepository targetGroupRepository;
+	@Autowired
+	TargetGroupRepository targetGroupRepository;
 
-    @PostConstruct
-    public void setUp()
-    {
-        System.out.println(targetGroupRepository.findAll().size());
-        for(TargetGroup targetGroup : targetGroupRepository.findAll())
-        {
-            pool.setConnection(targetGroup.getHost()+":"+targetGroup.getInboundPort(), new AtomicInteger(targetGroup.getConnection()));
-        }
-    }
+	@PostConstruct
+	public void setUp() {
+		for (TargetGroup targetGroup : targetGroupRepository.findAll()) {
+			pool.setConnection(targetGroup.getHost() + ":" + targetGroup.getOutboundPort(), new AtomicInteger(0));
+		}
+	}
 }

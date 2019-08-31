@@ -1,54 +1,48 @@
 package eight.controller;
 
 import java.net.UnknownHostException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import eight.domain.balancer.NodeBalancerLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import eight.domain.service.TagetGroupService;
+import eight.domain.service.NodeBalancerService;
+import eight.util.ConnectionPool;
 
 @RestController
-@CrossOrigin
-public class BalancerController {
+public class BalancerController extends AbstractContoller {
 	@Autowired
-	TagetGroupService tagetGroupService;
+	NodeBalancerService nodeBalancerLauncher;
 
 	@Autowired
-	NodeBalancerLauncher nodeBalancerLauncher;
-
-	int count = 0;
+	ConnectionPool connectionPool;
 
 	@GetMapping("*")
 	public String main(HttpServletRequest req) throws UnknownHostException {
-		String target = req.getHeader("Host");
 		int inBoundPort = req.getLocalPort();
+		String reuqestUri = req.getRequestURI();
 
-		String reuqestUrI = req.getRequestURI();
+		String destination = nodeBalancerLauncher.execute(inBoundPort);
+		String destinationForm = getDestinationForm(destination, reuqestUri);
 
-		String[] ipList = new String[] { "13.209.26.89:8081", "54.180.150.98:8081" };
+		AtomicInteger con = connectionPool.getConnection(destination);
 
-		// 54.180.150.98:8081 조립
-		String destinationHost = ipList[count % ipList.length];
-		String destination = getHttpForm(destinationHost, reuqestUrI);
-		System.out.println(count % ipList.length);
-		System.out.println(destination);
+		con.getAndIncrement();
+		ResponseEntity<String> res = new RestTemplate().getForEntity(destinationForm, String.class);
+		con.getAndDecrement();
 
-		ResponseEntity<String> res = new RestTemplate().getForEntity(destination, String.class);
-
-		count++;
-		return res.getBody();
+		String body = res.getBody();
+//		System.out.println(body);
+		return body;
 	}
 
-	private String getHttpForm(String host, String uri) {
+	private String getDestinationForm(String host, String uri) {
 		final String protocol = "http://";
-
 		StringBuffer sb = new StringBuffer();
 		sb.append(protocol);
 		sb.append(host);

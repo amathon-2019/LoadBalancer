@@ -18,8 +18,13 @@ public class TargetGroup {
 	@Column(name = "HOST", length = 20, nullable = false)
 	String host;
 
-	@Column(name = "CONNECTION", length = 10, nullable = false)
-	Integer connection = 0;
+	public int getOutboundPort() {
+		return outboundPort;
+	}
+
+	public void setOutboundPort(int outboundPort) {
+		this.outboundPort = outboundPort;
+	}
 
 	public int getInboundPort() {
 		return inBoundPort;
@@ -35,13 +40,5 @@ public class TargetGroup {
 
 	public void setHost(String host) {
 		this.host = host;
-	}
-
-	public Integer getConnection() {
-		return connection;
-	}
-
-	public void setConnection(Integer connection) {
-		this.connection = connection;
 	}
 }

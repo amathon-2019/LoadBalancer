@@ -3,8 +3,6 @@ package eight.domain.balancer;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +11,7 @@ import eight.model.TargetGroup;
 import eight.util.ConnectionPool;
 
 @Component
-class RoundRobinNodeBalancer implements NodeBalancer {
+public class RoundRobinNodeBalancer implements NodeBalancer {
 
 	@Autowired
 	TargetGroupRepository targetGroupRepository;
@@ -26,7 +24,7 @@ class RoundRobinNodeBalancer implements NodeBalancer {
 	AtomicInteger count = new AtomicInteger(0);
 
 	@Override
-	public HttpServletResponse execute() {
+	public String execute(int inBoundPort) {
 		// TODO Auto-generated method stub
 		targetGroupList = targetGroupRepository.findAll();
 
@@ -34,13 +32,8 @@ class RoundRobinNodeBalancer implements NodeBalancer {
 
 		TargetGroup target = targetGroupList.get(index);
 
-		String destination = target.getHost()+":"+target.getInboundPort();
+		String destination = target.getHost() + ":" + target.getOutboundPort();
 
-		AtomicInteger con = connectionPool.getConnection(destination);
-		con.getAndIncrement();
-
-		System.out.println(con);
-
-		return null;
+		return destination;
 	}
 }
