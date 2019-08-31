@@ -10,6 +10,4 @@ import eight.model.TargetGroup;
 @Repository
 public interface TargetGroupRepository extends JpaRepository<TargetGroup, String> {
 	List<TargetGroup> findAllByInBoundPort(Integer inBoundPort);
-
-	List<TargetGroup> findAllByInBoundPortOrderByConnection(Integer inBoundPort);
 }

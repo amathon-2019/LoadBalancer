@@ -12,5 +12,6 @@ spring:
         web-allow-others: true
 
 loadBalancer:
-  Node: roundRobin
-  #Stickyness: true
+#  mode: roundRobin
+  mode: leastConnection
+#  Stickyness: true
