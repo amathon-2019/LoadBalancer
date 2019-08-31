@@ -3,13 +3,14 @@ package eight.domain.balancer;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import eight.model.TargetGroup;
-import eight.repository.TargetGroupRepository;
-import eight.util.ConnectionPool;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletResponse;
+import eight.domain.repository.TargetGroupRepository;
+import eight.model.TargetGroup;
+import eight.util.ConnectionPool;
 
 @Component
 class LeastConnectionNodeBalancer implements NodeBalancer {
@@ -26,15 +27,14 @@ class LeastConnectionNodeBalancer implements NodeBalancer {
 	public HttpServletResponse execute() {
 		targetGroupList = targetGroupRepository.findAll();
 
-		//targetGroupList = targetGroupRepository.findAllByIdOrderByConnection(80);
+		// targetGroupList = targetGroupRepository.findAllByIdOrderByConnection(80);
 
 		TargetGroup target = targetGroupList.get(0);
 
-		String destination = target.getHost()+":"+target.getInboundPort();
+		String destination = target.getHost() + ":" + target.getInboundPort();
 
 		AtomicInteger con = connectionPool.getConnection(destination);
 		con.getAndIncrement();
-
 
 		return null;
 	}

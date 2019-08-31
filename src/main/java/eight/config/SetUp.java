@@ -1,14 +1,15 @@
 package eight.config;
 
-import java.util.List;
-import eight.model.TargetGroup;
-import eight.repository.TargetGroupRepository;
-import eight.util.ConnectionPool;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-import java.util.concurrent.atomic.AtomicInteger;
+import eight.domain.repository.TargetGroupRepository;
+import eight.model.TargetGroup;
+import eight.util.ConnectionPool;
 
 @Configuration
 public class SetUp

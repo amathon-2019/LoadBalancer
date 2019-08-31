@@ -1,14 +1,16 @@
 package eight.domain.balancer;
 
-import eight.model.TargetGroup;
-import eight.repository.TargetGroupRepository;
-import eight.util.ConnectionPool;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import eight.domain.repository.TargetGroupRepository;
+import eight.model.TargetGroup;
+import eight.util.ConnectionPool;
 
 @Component
 class RoundRobinNodeBalancer implements NodeBalancer {
