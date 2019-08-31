@@ -13,5 +13,5 @@ spring:
 
 loadBalancer:
 #  mode: roundRobin
-  mode: leastConnection
+#  mode: leastConnection
 #  Stickyness: true

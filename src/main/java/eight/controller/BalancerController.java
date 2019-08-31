@@ -16,6 +16,8 @@ import eight.util.ConnectionPool;
 
 @RestController
 public class BalancerController extends AbstractContoller {
+	public static String MODE = null;
+	
 	@Autowired
 	NodeBalancerService nodeBalancerLauncher;
 
@@ -26,6 +28,8 @@ public class BalancerController extends AbstractContoller {
 	public String main(HttpServletRequest req) throws UnknownHostException {
 		int inBoundPort = req.getLocalPort();
 		String reuqestUri = req.getRequestURI();
+		
+		MODE = req.getParameter("mode");
 
 		String destination = nodeBalancerLauncher.execute(inBoundPort);
 		String destinationForm = getDestinationForm(destination, reuqestUri);
