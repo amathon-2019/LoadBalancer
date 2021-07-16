@@ -2,13 +2,13 @@ package eight.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import eight.domain.balancer.LeastConnectionNodeBalancer;
 import eight.domain.balancer.NodeBalancer;
 import eight.domain.balancer.RoundRobinNodeBalancer;
 
-@Component
+@Service
 public class NodeBalancerService implements NodeBalancer {
 
 	@Value("${loadBalancer.mode}")
